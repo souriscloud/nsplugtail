@@ -1,0 +1,26 @@
+{
+  "name": "nsplugtail",
+  "version": "0.0.6",
+  "description": "Tool for inspecting your package.json NativeScript plugins updates.",
+  "type": "module",
+  "main": "index.js",
+  "bin": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node --experimental-json-modules index.js"
+  },
+  "keywords": [
+    "NativeScript",
+    "plugins",
+    "npmjs",
+    "registry",
+    "updates",
+    "version",
+    "checker"
+  ],
+  "author": "Souris.CLOUD <me@souris.cloud>",
+  "license": "ISC",
+  "dependencies": {
+    "chalk": "^5.0.1"
+  }
+}
