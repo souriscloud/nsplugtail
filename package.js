@@ -1,5 +1,7 @@
 import axios from 'axios'
 
+import { log, chlk, pkgWrapper } from './logger.js'
+
 const PACKAGE_FILTERS = ['nativescript', 'google', 'firebase']
 const CONFIG_VALIDATOR = ['name', 'version', 'description', 'author', 'dependencies']
 
@@ -38,29 +40,22 @@ export default class PackageInspector {
       pkgVersion = pkgVersion.substring(1)
     }
     const url = `https://registry.npmjs.org/${pkgName}`
-    console.log(url)
     const { data } = await axios.get(url, {
       responseType: 'json'
     })
 
     delete data.readme
 
-    // console.log(data.name)
-
     const latest = data['dist-tags']?.latest
     if (!latest) {
-      console.log('No latest dist-tag!')
+      log(chlk.error('No latest ' + chlk._.bold('dist-tag') + '! Package: ' + chlk._.bold(pkgName)))
     } else {
-      if (!pkgVersion.includes(pkgVersion)) {
-        console.log(data.name, 'NEW VERSION AVAILABLE!')
-      } else {
-        console.log(data.name, 'latest version')
-      }
+      pkgWrapper(pkgName, pkgVersion, pkgVersion.includes(latest), latest)
     }
   }
 
   async runInspection() {
-    for (let pkgEntry of this.packageDependenciesEntries) {
+    for (let pkgEntry of this.packagesToInspect) {
       await this.inspectPackage(pkgEntry)
     }
   }
